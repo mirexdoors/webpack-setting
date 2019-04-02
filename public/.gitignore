@@ -1,5 +1,5 @@
-.idea
-.idea/workspace.xml
+/.idea
+.idea/
 node_modules/
 /public/bundle.js
 public/bundle.js.map
