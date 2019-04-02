@@ -1,5 +1,4 @@
 const path = require(`path`);
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: `development`,
@@ -16,17 +15,6 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: '/\.js/',
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: ['env', 'es2015']
-            }
-          }
-        ]
-      },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
