@@ -74,7 +74,6 @@ module.exports = (env, options) => {
               limit: 9192,  //it's important
               outputPath: 'img',
               publicPath: '../img',
-              mimetype: 'image/jpg',
             }
           }
         }
