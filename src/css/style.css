@@ -1,3 +1,7 @@
 body {
     background-image: url("../img/modal-map.jpg");
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center;
+    color: royalblue; 
 }
