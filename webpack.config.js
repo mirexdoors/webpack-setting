@@ -3,10 +3,11 @@ const webpack = require(`webpack`);
 const HtmlWebpackPlugin = require(`html-webpack-plugin`);
 const MiniCssExtractPlugin = require(`mini-css-extract-plugin`);
 const OptimizeCSSAssetsPlugin = require(`optimize-css-assets-webpack-plugin`);
+const TerserPlugin = require(`terser-webpack-plugin`);
 module.exports = (env, options) => {
   const isProd = options.mode === `production`;
 
-  const finalCssLoader = isProd ? { loader: MiniCssExtractPlugin.loader} : `style-loader`
+  const finalCssLoader = isProd ? {loader: MiniCssExtractPlugin.loader} : `style-loader`
 
   const styleLoaders = [
     finalCssLoader,
@@ -26,10 +27,25 @@ module.exports = (env, options) => {
         name: `vendor`,
         chunks: `all`,
       },
-      minimizer: [new OptimizeCSSAssetsPlugin({})]
+      minimizer: [
+        new OptimizeCSSAssetsPlugin({}),
+        new TerserPlugin({
+          parallel: true,
+          terserOptions: {
+            ecma: 6,
+          },
+          chunkFilter: (chunk) => {
+            if (chunk.name === 'vendor') {
+              return false;
+            }
+
+            return true;
+          },
+        }),
+      ]
     },
     plugins: [
-      ...[`index`,`catalog`].map((event) => {
+      ...[`index`, `catalog`].map((event) => {
         return new HtmlWebpackPlugin({
           template: `./src/${event}.html`,
           filename: `${event}.html`,
@@ -54,7 +70,7 @@ module.exports = (env, options) => {
         },
         {
           test: /\.(css|scss)$/,
-          use: styleLoaders 
+          use: styleLoaders
         },
         {
           test: /\.(html)$/,
@@ -72,7 +88,7 @@ module.exports = (env, options) => {
             loader: `url-loader`,
             options: {
               name: `[name].[ext]`,
-              limit: 9192,  //it`s important
+              limit: 8192,
               outputPath: `img`,
               publicPath: `../img`,
               mimetype: `image/jpg`,
@@ -81,11 +97,11 @@ module.exports = (env, options) => {
         }
       ]
     }
-  }
+  };
 
   if (!isProd) {
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
   }
-  
+
   return config;
 };
