@@ -1,12 +1,11 @@
-import './css/style.css'; 
+import './css/style.css';
 import text from './js/text';
 import setCounter from './js/counter';
- 
 
-setCounter(); 
+setCounter();
 text();
 
-document.addEventListener(`DOMContentLoaded`, function () {
-  const hello = 'Hello world!!';
+document.addEventListener(`DOMContentLoaded`, () => {
+  const hello = `Hello world!!`;
   console.log(hello);
 });

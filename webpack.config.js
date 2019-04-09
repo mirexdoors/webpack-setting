@@ -7,7 +7,7 @@ const TerserPlugin = require(`terser-webpack-plugin`);
 module.exports = (env, options) => {
   const isProd = options.mode === `production`;
 
-  const finalCssLoader = isProd ? {loader: MiniCssExtractPlugin.loader} : `style-loader`
+  const finalCssLoader = isProd ? { loader: MiniCssExtractPlugin.loader } : `style-loader`;
 
   const styleLoaders = [
     finalCssLoader,
@@ -20,7 +20,7 @@ module.exports = (env, options) => {
     output: {
       filename: `[name].js`,
       publicPath: ``,
-      path: path.join(__dirname, `public`)
+      path: path.join(__dirname, `public`),
     },
     optimization: {
       splitChunks: {
@@ -35,21 +35,21 @@ module.exports = (env, options) => {
             ecma: 6,
           },
           chunkFilter: (chunk) => {
-            if (chunk.name === 'vendor') {
+            if (chunk.name === `vendor`) {
               return false;
             }
 
             return true;
           },
         }),
-      ]
+      ],
     },
     plugins: [
       ...[`index`, `catalog`].map((event) => {
         return new HtmlWebpackPlugin({
           template: `./src/${event}.html`,
           filename: `${event}.html`,
-        })
+        });
       }),
       new MiniCssExtractPlugin({
         filename: `css/[name].css`,
@@ -66,11 +66,11 @@ module.exports = (env, options) => {
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          use: `babel-loader`
+          use: `babel-loader`,
         },
         {
           test: /\.(css|scss)$/,
-          use: styleLoaders
+          use: styleLoaders,
         },
         {
           test: /\.(html)$/,
@@ -78,9 +78,9 @@ module.exports = (env, options) => {
             loader: `html-loader`,
             options: {
               minimize: true,
-              attrs: [`:src`, `:data-src`]
-            }
-          }
+              attrs: [`:src`, `:data-src`],
+            },
+          },
         },
         {
           test: /\.(jpe?g|png|gif|svg)$/,
@@ -92,11 +92,11 @@ module.exports = (env, options) => {
               outputPath: `img`,
               publicPath: `../img`,
               mimetype: `image/jpg`,
-            }
-          }
-        }
-      ]
-    }
+            },
+          },
+        },
+      ],
+    },
   };
 
   if (!isProd) {
