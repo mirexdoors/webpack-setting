@@ -7,7 +7,11 @@ const TerserPlugin = require(`terser-webpack-plugin`);
 module.exports = (env, options) => {
   const isProd = options.mode === `production`;
 
-  const finalCssLoader = isProd ? { loader: MiniCssExtractPlugin.loader } : `style-loader`;
+  const finalCssLoader = isProd
+    ? {
+      loader: MiniCssExtractPlugin.loader,
+      options: { publicPath: `../` },
+    } : `style-loader`;
 
   const styleLoaders = [
     finalCssLoader,
@@ -90,7 +94,6 @@ module.exports = (env, options) => {
               name: `[name].[ext]`,
               limit: 8192,
               outputPath: `img`,
-              publicPath: `../img`,
               mimetype: `image/jpg`,
             },
           },
